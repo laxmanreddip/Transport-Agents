@@ -1,18 +1,15 @@
-# robotics_project_007
-
 ### Compile code :
-
-```bash
-git clone https://github.com/scifiswapnil/robotics_project_007
-cd robotics_project_007
+Download and extract the files
+cd (Location of the downloaded directory)
 catkin_make
+
 source devel/setup.bash
 ```
 
 ### To start simulation :
 
 ```bash
-cd robotics_project_007
+cd agents
 source devel/setup.bash
 roslaunch simulation multi_robot.launch
 ```
@@ -23,7 +20,7 @@ roslaunch simulation multi_robot.launch
 ### Disable formation :
 
 ```bash
-cd robotics_project_007
+cd agents
 source devel/setup.bash
 rosrun simulation formation_disable.py
 ```
@@ -39,7 +36,7 @@ rosrun simulation formation_disable.py
 ### Spawn payload:
 
 ```bash
-cd robotics_project_007
+cd agents
 source devel/setup.bash
 rosrun simulation payload.py
 ```
@@ -48,32 +45,23 @@ rosrun simulation payload.py
 
 ---
 
-## Obstacle avoidance 
+## Dynamic Obstacle avoidance 
 
 ```bash
-cd robotics_project_007
+cd agents
 source devel/setup.bash
 roslaunch stage_sim stage.launch
 ```
 *Note:*
 - Use the 3 navigation buttons in the rviz to send individual goals to the robot.
 
-#### Stage simulator
 
-Stage is a robot simulator. It provides a virtual world populated by mobile robots and sensors, along with various objects for the robots to sense and manipulate. Stage provides several sensor and actuator models, including sonar or infrared rangers, scanning laser rangefinder, color-blob tracking, fiducial tracking, bumpers, grippers and mobile robot bases with odometric or global localization.
-
-There are three ways to use Stage:
-- The "stage" program: a standalone robot simulation program that loads your robot control program from a library that you provide.
-- The Stage plugin for Player (libstageplugin) - provides a population of virtual robots for the popular Player networked robot interface system.
-- Write your own simulator: the "libstage" C++ library makes it easy to create, run and customize a Stage simulation from inside your own programs.
-
-Stage was designed with multi-agent systems in mind, so it provides fairly simple, computationally cheap models of lots of devices rather than attempting to emulate any device with great fidelity. This design is intended to be useful compromise between conventional high-fidelity robot simulations, the minimal simulations and the grid-world simulations common in artificial life research.
 
 ## Sequencial goals for single robot
 
 
 ```bash
-cd robotics_project_007
+cd agents
 source devel/setup.bash
 roslaunch simulation single_robot.launch
 ```
@@ -85,7 +73,7 @@ roslaunch simulation single_robot.launch
 
 
 ```bash
-cd robotics_project_007
+cd agents
 source devel/setup.bash
 roslaunch simulation 3_single_robot.launch
 ```
