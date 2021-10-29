@@ -1,0 +1,10 @@
+<launch>
+
+    <arg name="pose_x" default="0.45" />
+    <arg name="pose_y" default="6.51" />
+    <arg name="pose_yaw" default="0" />
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find simulation)/urdf/payload.urdf.xacro"  />
+    <node name="payload_urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -model payload -param robot_description -x $(arg pose_x) -y $(arg pose_y) -z 2.0 -Y $(arg pose_yaw)" />
+
+</launch>

@@ -1,0 +1,59 @@
+<launch>
+
+  <arg name="use_sim_time" default="true" />
+  <arg name="gui" default="true" />
+  <arg name="headless" default="false" />
+  <arg name="world_name" default="$(find simulation)/world/world0.world" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="0" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless" value="$(arg headless)" />
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="paused" value="false" />
+  </include>
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find simulation)/map/map0.yaml" />
+
+  <include file="$(find simulation)/launch/spawn_robot.launch.xml">
+    <arg name="robot_name" value="robot0" />
+    <arg name="pose_x" value="0" />
+    <arg name="pose_y" value="0" />
+    <arg name="pose_yaw" value="1.57" />
+    <arg name="use_move_base" value="true" />
+    <arg name="use_tf" value="true" />
+    <arg name="use_gmapping" value="false" />
+  </include>
+
+  <include file="$(find simulation)/launch/spawn_robot.launch.xml">
+    <arg name="robot_name" value="robot1" />
+    <arg name="pose_x" value="2" />
+    <arg name="pose_y" value="0" />
+    <arg name="pose_yaw" value="1.57" />
+    <arg name="use_move_base" value="true" />
+    <arg name="use_tf" value="true" />
+    <arg name="use_gmapping" value="false" />
+  </include>
+
+  <include file="$(find simulation)/launch/spawn_robot.launch.xml">
+    <arg name="robot_name" value="robot2" />
+    <arg name="pose_x" value="-2" />
+    <arg name="pose_y" value="0" />
+    <arg name="pose_yaw" value="1.57" />
+    <arg name="use_move_base" value="true" />
+    <arg name="use_tf" value="true" />
+    <arg name="use_gmapping" value="false" />
+  </include>
+
+  <!-- keyboard controller -->
+  <node name="robot0_teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" launch-prefix="xterm -e">
+    <remap to="robot0/cmd_vel" from="cmd_vel" />
+  </node>
+
+  <node name="simulation_seq0" pkg="simulation" type="seq0.py"/>
+  <node name="simulation_seq1" pkg="simulation" type="seq1.py"/>
+  <node name="simulation_seq2" pkg="simulation" type="seq2.py"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulation)/rviz/single.rviz" required="true" />
+</launch>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find simulation)/urdf/inertia_tensors.urdf.xacro" />
+    <xacro:include filename="$(find simulation)/urdf/robot.gazebo.xacro" />
+
+    <link name="$(arg prefix)/base_footprint" />
+
+    <joint name="$(arg prefix)/footprint_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        <parent link="$(arg prefix)/base_footprint" />
+        <child link="$(arg prefix)/base_link" />
+    </joint>
+
+    <link name="$(arg prefix)/laser_link" />
+
+    <joint name="$(arg prefix)/laser_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.225" rpy="0.0 0.0 0.0" />
+        <parent link="$(arg prefix)/base_link" />
+        <child link="$(arg prefix)/laser_link" />
+    </joint>
+
+    <link name="$(arg prefix)/base_link">
+        <xacro:inertial_cuboid mass="10.0" x_length="0.6" y_length="0.4" z_length="0.2" />
+        <visual>
+            <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0" />
+            <geometry>
+                <box size="0.6 0.4 0.2" />
+            </geometry>
+            <material name="Red">
+                <color rgba="1.0 0.0 0.0 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0" />
+            <geometry>
+                <box size="0.6 0.4 0.2" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="$(arg prefix)/pillar_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0" />
+        <parent link="$(arg prefix)/base_link" />
+        <child link="$(arg prefix)/pillar" />
+    </joint>
+
+    <link name="$(arg prefix)/pillar">
+        <xacro:inertial_cuboid mass="10.0" x_length="0.6" y_length="0.4" z_length="0.2" />
+        <visual>
+            <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0" />
+            <geometry>
+                <cylinder radius="0.2" length="0.2"/> 
+            </geometry>
+            <material name="Red">
+                <color rgba="1.0 0.0 0.0 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0" />
+            <geometry>
+                <cylinder radius="0.2" length="0.2"/> 
+            </geometry>
+        </collision>
+    </link>
+    
+    <xacro:macro name="wheel" params="name x y z r p yy">
+        <link name="$(arg prefix)/${name}">
+            <xacro:inertial_sphere mass="1.5" diameter="0.2" />
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <cylinder radius="0.1" length="0.08" />
+                </geometry>
+                <material name="Green">
+                    <color rgba="0.0 1.0 0.0 1.0" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <cylinder radius="0.1" length="0.08" />
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="$(arg prefix)/${name}_joint" type="fixed">
+            <origin xyz="${x} ${y} ${z}" rpy="${r} ${p} ${yy}" />
+            <parent link="$(arg prefix)/base_link" />
+            <child link="$(arg prefix)/${name}" />
+            <axis xyz="0.0 0.0 1.0" />
+            <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0" />
+        </joint>
+    </xacro:macro>
+
+    <xacro:wheel name="left_back" x="0.2" y="0.25" z="0.05" r="1.57" p="0.0" yy="0.0" />
+    <xacro:wheel name="left_front" x="-0.2" y="0.25" z="0.05" r="1.57" p="0.0" yy="0.0" />
+    <xacro:wheel name="right_back" x="0.2" y="-0.25" z="0.05" r="1.57" p="0.0" yy="0.0" />
+    <xacro:wheel name="right_front" x="-0.2" y="-0.25" z="0.05" r="1.57" p="0.0" yy="0.0" />
+
+</robot>
